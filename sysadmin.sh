@@ -85,6 +85,20 @@ while getopts ":m:u:a:h:" opt; do
 
 	u)
 		#upgrade option
+				curl https://github.com/hippi3c0w/sysadmin/blob/master/version | grep -i "lc1" > /root/version.txt
+		lastUpdate=`cat /root/version.txt | cut -d ">" -f2 | cut -d "<" -f1 | cut -d "-" -f1`
+		currentVersion=`cat version.txt| cut -d "-" -f1`
+		if [[ "$lastUpdate" == "$currentVersion"  ]];then
+
+			echo  -e "[${GREEN}+${NC}]Software actualizado. No te hace falta actualizar"
+		else
+			echo  -e "[${RED}+${NC}]Software NO actualizado."
+			cd /root/
+			git clone https://github.com/hippi3c0w/sysadmin.git
+			cd sysadmin
+			mv sysadmin.sh sysadmin 
+			mv sysadmin /usr/bin/
+		fi
 		    ;;
 
     a)
